@@ -5,30 +5,37 @@
 //  Created by Roberto Edgar Geiss on 01/05/22.
 //
 
-
 import SwiftUI
 
-struct DetailView: View {
+struct DetailView: View
+{
     @Binding var scrum: DailyScrum
-    
     @State private var data = DailyScrum.Data()
     @State private var isPresentingEditView = false
     
-    var body: some View {
-        List {
-            Section(header: Text("Meeting Info")) {
-                NavigationLink(destination: MeetingView(scrum: $scrum)) {
+    var body: some View
+    {
+        List
+        {
+            Section(header: Text("Meeting Info"))
+            {
+                NavigationLink(destination: MeetingView(scrum: $scrum))
+                {
                     Label("Start Meeting", systemImage: "timer")
                         .font(.headline)
                         .foregroundColor(.accentColor)
                 }
-                HStack {
+                
+                HStack
+                {
                     Label("Length", systemImage: "clock")
                     Spacer()
                     Text("\(scrum.lengthInMinutes) minutes")
                 }
                 .accessibilityElement(children: .combine)
-                HStack {
+                
+                HStack
+                {
                     Label("Theme", systemImage: "paintpalette")
                     Spacer()
                     Text(scrum.theme.name)
@@ -39,8 +46,11 @@ struct DetailView: View {
                 }
                 .accessibilityElement(children: .combine)
             }
-            Section(header: Text("Attendees")) {
-                ForEach(scrum.attendees) { attendee in
+            
+            Section(header: Text("Attendees"))
+            {
+                ForEach(scrum.attendees)
+                { attendee in
                     Label(attendee.name, systemImage: "person")
                 }
             }
@@ -52,8 +62,10 @@ struct DetailView: View {
                 data = scrum.data
             }
         }
-        .sheet(isPresented: $isPresentingEditView) {
-            NavigationView {
+        .sheet(isPresented: $isPresentingEditView)
+        {
+            NavigationView
+            {
                 DetailEditView(data: $data)
                     .navigationTitle(scrum.title)
                     .toolbar {
