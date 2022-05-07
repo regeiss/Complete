@@ -16,6 +16,15 @@ struct ScrumdingerApp: App
             NavigationView
             {
                 ScrumsView(scrums: $store.scrums)
+                {
+                    ScrumStore.save(scrums: store.scrums)
+                    { result in
+                        if case .failure(let error) = result
+                        {
+                            fatalError(error.localizedDescription)
+                        }
+                    }
+                }
             }.onAppear
             {
                 ScrumStore.load
