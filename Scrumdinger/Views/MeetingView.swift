@@ -29,9 +29,11 @@ struct MeetingView: View
         .foregroundColor(scrum.theme.accentColor)
         .onAppear { scrumTimer.reset(lengthInMinutes: scrum.lengthInMinutes, attendees: scrum.attendees)
             scrumTimer.speakerChangedAction = { player.seek(to: .zero)}
-            scrumTimer.startScrum()
+            scrumTimer.startScrum()}
+        .onDisappear { scrumTimer.stopScrum()
+            let newHistory = History(attendees: scrum.attendees, lengthInMinutes: scrum.timer.secondsElapsed / 60 )
+            scrum.history.insert(newHistory, at: 0)
         }
-        .onDisappear { scrumTimer.stopScrum()}
         .navigationBarTitleDisplayMode(.inline)
     }
 }

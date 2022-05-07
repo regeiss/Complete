@@ -8,13 +8,14 @@
 import Foundation
 import CloudKit
 
-struct DailyScrum: Identifiable
+struct DailyScrum: Identifiable, Codable
 {
     var id: UUID
     var title: String
     var attendees: [Attendee]
     var lengthInMinutes: Int
     var theme: Theme
+    var history: [History] = []
     
     init(id: UUID = UUID(), title: String, attendees: [String], lengthInMinutes: Int, theme: Theme)
     {
@@ -28,7 +29,7 @@ struct DailyScrum: Identifiable
 
 extension DailyScrum
 {
-    struct Attendee: Identifiable
+    struct Attendee: Identifiable, Codable
     {
         var id: UUID
         var name: String
@@ -60,6 +61,15 @@ extension DailyScrum
          lengthInMinutes = Int(data.lengthInMinutes)
          theme = data.theme
      }
+    
+    init(data: Data)
+    {
+          id = UUID()
+          title = data.title
+          attendees = data.attendees
+          lengthInMinutes = Int(data.lengthInMinutes)
+          theme = data.theme
+      }
 }
 
 extension DailyScrum
