@@ -42,12 +42,21 @@ struct ScrumsView: View
                     .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Dismiss") { isPresentetingNewScrumView = false
                         newScrumData = DailyScrum.Data()}
                     }
-                        ToolbarItem(placement: .confirmationAction) { Button("Add") { let newScrum = DailyScrum(data: newScrumData); isPresentetingNewScrumView = false
-                            scrums.append(newScrum) }}
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Add") {
+                                let newScrum = DailyScrum(data: newScrumData)
+                                isPresentetingNewScrumView = false
+                                scrums.append(newScrum)
+                                newScrumData = DailyScrum.Data()
+                            }}
                     }
-            }.onChange(of: scenePhase)
-            { phase in
-                if phase == .inactive { saveAction()}
+            }
+        }.onChange(of: scenePhase)
+        { phase in
+            if phase == .inactive
+            {
+                saveAction()
+                print("Salvo no inactive da sheet")
             }
         }
     }
